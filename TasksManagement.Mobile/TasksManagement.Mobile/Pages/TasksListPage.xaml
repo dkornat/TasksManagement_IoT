@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TasksManagement.Mobile.TasksListPage"
+             xmlns:tasks="clr-namespace:TasksManagement.Mobile.ViewModels"
+             Title="Lista zadań" NavigationPage.HasBackButton="True">
+
+    <ContentPage.BindingContext>
+        <tasks:TasksListViewModel/>
+    </ContentPage.BindingContext>
+    <StackLayout>
+        <ListView x:Name="MyListView"
+            ItemsSource="{Binding Tasks}"
+            ItemTapped="Handle_ItemTapped"
+            CachingStrategy="RecycleElement">
+            <!--Built in Cells-->
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Title}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+
+            <!--Custom View Cells-->
+            <!--
+    <ListView.ItemTemplate>
+      <DataTemplate>
+        <ViewCell>
+          <StackLayout>
+            <Label Text="{Binding Text}" 
+                   Style="{DynamicResource ListItemTextStyle}" />
+            <Label Text="{Binding Detail}" 
+                   Style="{DynamicResource ListItemDetailTextStyle}"/>
+          </StackLayout>
+        </ViewCell>
+      </DataTemplate>
+    </ListView.ItemTemplate>
+    -->
+        </ListView>
+
+        <Button Text="Dodaj zadanie" x:Name="addTaskBtn" Clicked="addTaskBtn_Clicked"></Button>
+    </StackLayout>
+
+</ContentPage>

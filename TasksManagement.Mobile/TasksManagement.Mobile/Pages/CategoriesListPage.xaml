@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TasksManagement.Mobile.CategoriesListPage"
+             xmlns:categories="clr-namespace:TasksManagement.Mobile.ViewModels"
+             Title="Dostępne kategorie" NavigationPage.HasBackButton="True">
+
+    <ContentPage.BindingContext>
+        <categories:CategoriesListViewModel/>
+    </ContentPage.BindingContext>
+    
+    <StackLayout>
+        <Label>Kategorie</Label>
+        <ListView x:Name="MyListView"
+            ItemsSource="{Binding Categories}"
+            ItemTapped="Handle_ItemTapped"
+            CachingStrategy="RecycleElement" >
+            <!--Built in Cells-->
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+            <!--Custom View Cells-->
+            <!--
+            <ListView.ItemTemplate>
+              <DataTemplate>
+                <ViewCell>
+                  <StackLayout>
+                    <Label Text="{Binding Text}" 
+                           Style="{DynamicResource ListItemTextStyle}" />
+                    <Label Text="{Binding Detail}" 
+                           Style="{DynamicResource ListItemDetailTextStyle}"/>
+                  </StackLayout>
+                </ViewCell>
+              </DataTemplate>
+            </ListView.ItemTemplate>-->
+        </ListView>    
+    </StackLayout>
+</ContentPage>
