@@ -10,7 +10,9 @@ namespace TasksManagement.Models
         public DateTime CreatedOn { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
+        public int? StatusId { get; set; }
         public Status Status { get; set; }
+        public int? CategoryId { get; set; }
         public Category Category { get; set; }
     }
 }

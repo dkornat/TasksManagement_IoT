@@ -5,7 +5,10 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using TasksManagement.Mobile.ServicesHandler;
+using TasksManagement.Models;
+using Xamarin.Forms;
 
 namespace TasksManagement.Mobile.ViewModels
 {
@@ -13,10 +16,28 @@ namespace TasksManagement.Mobile.ViewModels
     {
         public TasksListViewModel()
         {
-            InitializeGetTasksAsync();
+            CloseTaskCommand = new Command(CloseTask);
+            InitializeGetStatusesAsync();
         }
-        TaskServices _services = new TaskServices();
+
+        TaskServices _taskServices = new TaskServices();
+        StatusServices _statusServices = new StatusServices();
+
+        public ICommand CloseTaskCommand { get; private set; }
         public event PropertyChangedEventHandler PropertyChanged;
+        private IList<Status> _statuses;
+        public IList<Status> Statuses
+        {
+            get
+            {
+                return this._statuses;
+            }
+            set
+            {
+                this._statuses = value;
+                NotifyPropertyChanged();
+            }
+        }
         private ObservableCollection<Models.Task> _tasks;
         public ObservableCollection<Models.Task> Tasks { 
             get 
@@ -29,26 +50,32 @@ namespace TasksManagement.Mobile.ViewModels
                 NotifyPropertyChanged();
             }
         }
-        private async Task InitializeGetTasksAsync()
+
+
+        private Status _statusToShow;
+        public Status StatusToShow
         {
-            try
+            get { return _statusToShow; }
+            set
             {
-                IsBusy = true; // set the ui property "IsRunning" to true(loading) in Xaml ActivityIndicator Control
-                var items = await _services.GetAllTasks();
-                Tasks = new ObservableCollection<Models.Task>(items);
-            }
-            finally
-            {
-                IsBusy = false;
+                _statusToShow = value;
+                NotifyPropertyChanged();
+                InitializeGetTasksAsync();
             }
         }
 
-        protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        private Object _selectedTask;
+        public Object SelectedTask
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get { return _selectedTask; }
+            set
+            {
+                _selectedTask = value;
+                NotifyPropertyChanged();
+            }
         }
 
-        private bool _isBusy; 
+        private bool _isBusy;
         public bool IsBusy
         {
             get { return _isBusy; }
@@ -58,5 +85,50 @@ namespace TasksManagement.Mobile.ViewModels
                 NotifyPropertyChanged();
             }
         }
+        private async System.Threading.Tasks.Task InitializeGetTasksAsync()
+        {
+            try
+            {
+                IsBusy = true; 
+                var items = await _taskServices.GetAllTasks(this.StatusToShow.Id);
+                Tasks = new ObservableCollection<Models.Task>(items);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+        private async System.Threading.Tasks.Task InitializeGetStatusesAsync()
+        {
+            try
+            {
+                IsBusy = true;
+                var items = await _statusServices.GetAllStatuses();
+                Statuses = new ObservableCollection<Models.Status>(items);
+
+                Status defaultStatus = new Status()
+                {
+                    Id = 0,
+                    Name = "Wszystkie"
+                };
+                Statuses.Add(defaultStatus);
+                StatusToShow = defaultStatus;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async void CloseTask()
+        {
+            await _taskServices.CloseTask((Models.Task)SelectedTask);
+        }
+
+        protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
 }

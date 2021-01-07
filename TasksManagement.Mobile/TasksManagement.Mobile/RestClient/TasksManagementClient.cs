@@ -26,9 +26,9 @@ namespace TasksManagement.Mobile.RestClient
                 var results = JsonConvert.DeserializeObject<IEnumerable<T>>(json);
                 return results;
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -39,6 +39,22 @@ namespace TasksManagement.Mobile.RestClient
                 var json = JsonConvert.SerializeObject(objectToCreate);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync(WebServiceURL + uri, data);
+                string result = response.Content.ReadAsStringAsync().Result;
+                return result;
+            }
+            catch (System.Exception)
+            {
+                return null;
+            }
+        }
+
+        public async Task<string> UpdateObject(T updateBody, string uri)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(updateBody);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PutAsync(WebServiceURL + uri, data);
                 string result = response.Content.ReadAsStringAsync().Result;
                 return result;
             }

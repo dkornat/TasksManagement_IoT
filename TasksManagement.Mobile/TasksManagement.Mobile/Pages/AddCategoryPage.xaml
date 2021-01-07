@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TasksManagement.Mobile.Pages.AddCategoryPage"
+             xmlns:categories="clr-namespace:TasksManagement.Mobile.ViewModels"
+             Title="Dodawanie kategorii" NavigationPage.HasBackButton="True">
+    <ContentPage.BindingContext>
+        <categories:AddCategoryViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry Placeholder="Wprowadź tytuł kategorii" Text="{Binding Category.Name}"></Entry>
+            <Button x:Name="btnSave" Text="Dodaj kategorie" Command="{Binding AddCategoryCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

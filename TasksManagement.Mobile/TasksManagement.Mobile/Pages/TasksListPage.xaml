@@ -9,14 +9,27 @@
         <tasks:TasksListViewModel/>
     </ContentPage.BindingContext>
     <StackLayout>
+        <Grid Grid.Column="0">
+            <StackLayout Orientation="Horizontal" HeightRequest="70">
+                <Label Text="Wybierz widok: " HorizontalOptions="Center" WidthRequest="120"/>
+                <Picker ItemsSource="{Binding Statuses}" SelectedItem="{Binding StatusToShow}" ItemDisplayBinding="{Binding Name}" WidthRequest="200"></Picker>
+            </StackLayout>
+        </Grid>
         <ListView x:Name="MyListView"
             ItemsSource="{Binding Tasks}"
-            ItemTapped="Handle_ItemTapped"
-            CachingStrategy="RecycleElement">
+            SelectedItem="{Binding SelectedTask}"
+            CachingStrategy="RecycleElement"
+            RowHeight="75">
             <!--Built in Cells-->
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Title}" />
+                    <ViewCell>
+                        <StackLayout>
+                            <Label TextColor="Black" FontSize="Medium" Text="{Binding Title}" />
+                            <Label Text="{Binding Description}"/>
+                            <Button Text="Zamknij zadanie" Command="{Binding CloseTaskCommand}"></Button>
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
 

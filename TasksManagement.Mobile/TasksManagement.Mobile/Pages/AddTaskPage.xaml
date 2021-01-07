@@ -16,7 +16,8 @@
             <DatePicker Date="{Binding Task.Start}"></DatePicker>
             <Label Text="Data zakończenia"/>
             <DatePicker Date="{Binding Task.End}"></DatePicker>
-            <Picker Title="Kategoria" ItemDisplayBinding="{Binding Name}" ItemsSource="{Binding Categories}"></Picker>
+            <Picker Title="Kategoria" ItemDisplayBinding="{Binding Name}" ItemsSource="{Binding Categories}" SelectedItem="{Binding Task.Category}"></Picker>
+            <Picker Title="Status" ItemDisplayBinding="{Binding Name}" ItemsSource="{Binding Statuses}" SelectedItem="{Binding Task.Status}"></Picker>
             <Button x:Name="btnSave" Text="Dodaj zadanie" Command="{Binding AddTaskCommand}"/>
         </StackLayout>
     </ContentPage.Content>

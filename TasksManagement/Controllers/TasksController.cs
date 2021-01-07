@@ -27,19 +27,30 @@ namespace TasksManagement.Controllers
             return await _context.Tasks.ToListAsync();
         }
 
-        // GET: api/Tasks/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Models.Task>> GetTask(int id)
+        // GET: api/Tasks
+        [HttpGet("{statusId}")]
+        public async Task<ActionResult<IEnumerable<Models.Task>>> GetTasksByStatus(int statusId)
         {
-            var task = await _context.Tasks.FindAsync(id);
-
-            if (task == null)
-            {
-                return NotFound();
-            }
-
-            return task;
+            if (statusId == 0)
+                return await _context.Tasks.ToListAsync();
+            else
+                return await _context.Tasks.Where(task => task.StatusId == statusId).ToListAsync();
         }
+
+
+        //GET: api/Tasks/5
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<Models.Task>> GetTask(int id)
+        //{
+        //    var task = await _context.Tasks.FindAsync(id);
+
+        //    if (task == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return task;
+        //}
 
         // PUT: api/Tasks/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for

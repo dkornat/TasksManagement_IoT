@@ -8,9 +8,8 @@
     <ContentPage.BindingContext>
         <categories:CategoriesListViewModel/>
     </ContentPage.BindingContext>
-    
+
     <StackLayout>
-        <Label>Kategorie</Label>
         <ListView x:Name="MyListView"
             ItemsSource="{Binding Categories}"
             ItemTapped="Handle_ItemTapped"
@@ -21,21 +20,7 @@
                     <TextCell Text="{Binding Name}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
-
-            <!--Custom View Cells-->
-            <!--
-            <ListView.ItemTemplate>
-              <DataTemplate>
-                <ViewCell>
-                  <StackLayout>
-                    <Label Text="{Binding Text}" 
-                           Style="{DynamicResource ListItemTextStyle}" />
-                    <Label Text="{Binding Detail}" 
-                           Style="{DynamicResource ListItemDetailTextStyle}"/>
-                  </StackLayout>
-                </ViewCell>
-              </DataTemplate>
-            </ListView.ItemTemplate>-->
-        </ListView>    
+        </ListView>
+        <Button Text="Dodaj kategorie" x:Name="addCategoryBtn" Clicked="addCategoryBtn_Clicked"></Button>
     </StackLayout>
 </ContentPage>

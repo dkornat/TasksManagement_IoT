@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Linq;
 using TasksManagement.Mobile.ViewModels;
 using TasksManagement.Models;
+using TasksManagement.Mobile.Pages;
 
 namespace TasksManagement.Mobile
 {
@@ -39,6 +40,11 @@ namespace TasksManagement.Mobile
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
+        }
+
+        private async void addCategoryBtn_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new AddCategoryPage());
         }
     }
 }

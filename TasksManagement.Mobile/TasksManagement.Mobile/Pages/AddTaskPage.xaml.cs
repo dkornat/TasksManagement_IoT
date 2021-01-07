@@ -15,7 +15,10 @@ namespace TasksManagement.Mobile.Pages
         public AddTaskPage()
         {
             InitializeComponent();
-            BindingContext = new AddTaskViewModel(Navigation);
+            var addTaskViewModel = new AddTaskViewModel(Navigation);
+            addTaskViewModel.Task.Start = DateTime.Today;
+            addTaskViewModel.Task.End = DateTime.Today;
+            BindingContext = addTaskViewModel;
         }
     }
 }

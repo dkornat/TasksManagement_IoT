@@ -16,5 +16,10 @@ namespace TasksManagement.Mobile.ServicesHandler
             var categories = await _rest.GetAllItems(_categoriesUri);
             return categories.ToList();
         }
+        public async Task<string> AddCategory(Category category)
+        {
+            var createdCategory = await _rest.CreateObject(category, _categoriesUri);
+            return createdCategory;
+        }
     }
 }
