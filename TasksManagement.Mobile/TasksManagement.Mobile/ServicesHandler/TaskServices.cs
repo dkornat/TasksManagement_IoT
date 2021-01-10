@@ -26,12 +26,19 @@ namespace TasksManagement.Mobile.ServicesHandler
 
         public async Task<bool> CloseTask(Models.Task task)
         {
-            task.StatusId = 2;
-            var updatedTask = await _rest.UpdateObject(task, _tasksUri + "/" + task.Id);
-            if (updatedTask != null)
-                return true;
-            else
+            try
+            {
+                task.StatusId = 2;
+                var updatedTask = await _rest.UpdateObject(task, _tasksUri + "/" + task.Id);
+                if (updatedTask != null)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
                 return false;
+            }
         }
     }
 }

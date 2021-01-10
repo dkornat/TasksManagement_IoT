@@ -14,5 +14,6 @@ namespace TasksManagement.Models
         public Status Status { get; set; }
         public int? CategoryId { get; set; }
         public Category Category { get; set; }
+        public string Photo { get; set; }
     }
 }

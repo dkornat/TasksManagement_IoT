@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Android.Webkit;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -17,6 +19,7 @@ namespace TasksManagement.Mobile.ViewModels
         {
             Task = new Models.Task();
             AddTaskCommand = new Command(AddTask);
+            AddPhotoCommand = new Command(AddPhoto);
             InitializeGetCategoriesAsync();
         }
         public AddTaskViewModel(INavigation navigation)
@@ -25,11 +28,14 @@ namespace TasksManagement.Mobile.ViewModels
             Task = new Models.Task();
             Task.StatusId = 1;
             AddTaskCommand = new Command(AddTask);
+            AddPhotoCommand = new Command(AddPhoto);
             InitializeGetCategoriesAsync();
             InitializeGetStatusesAsync();
         }
         public INavigation Navigation { get; set; }
         public ICommand AddTaskCommand { get; private set; }
+
+        public ICommand AddPhotoCommand { get; private set; }
 
         CategoryServices _categoryServices = new CategoryServices();
         TaskServices _taskServices = new TaskServices();
@@ -90,6 +96,28 @@ namespace TasksManagement.Mobile.ViewModels
             this.Task.Status = null;
             await _taskServices.AddTask(this.Task);
             await Navigation.PopAsync();
+        }
+
+        private async void AddPhoto()
+        {
+            var photo = await Plugin.Media.CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+            {
+                Directory = "Sample",
+                Name = "test.jpg"
+            });
+            if(photo != null)
+            {
+                var imageSource = ImageSource.FromStream(() => photo.GetStream());
+                byte[] bytes;
+                using (var memoryStream = new MemoryStream())
+                {
+                    photo.GetStream().CopyTo(memoryStream);
+                    bytes = memoryStream.ToArray();
+                }
+
+                string base64 = Convert.ToBase64String(bytes);
+                this.Task.Photo = base64;
+            }
         }
 
         public bool IsBusy

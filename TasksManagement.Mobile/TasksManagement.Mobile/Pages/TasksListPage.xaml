@@ -10,7 +10,7 @@
     </ContentPage.BindingContext>
     <StackLayout>
         <Grid Grid.Column="0">
-            <StackLayout Orientation="Horizontal" HeightRequest="70">
+            <StackLayout Orientation="Horizontal" HeightRequest="90">
                 <Label Text="Wybierz widok: " HorizontalOptions="Center" WidthRequest="120"/>
                 <Picker ItemsSource="{Binding Statuses}" SelectedItem="{Binding StatusToShow}" ItemDisplayBinding="{Binding Name}" WidthRequest="200"></Picker>
             </StackLayout>
@@ -18,16 +18,15 @@
         <ListView x:Name="MyListView"
             ItemsSource="{Binding Tasks}"
             SelectedItem="{Binding SelectedTask}"
-            CachingStrategy="RecycleElement"
-            RowHeight="75">
+                  
+            RowHeight="100">
             <!--Built in Cells-->
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <StackLayout>
+                    <ViewCell Height="150">
+                        <StackLayout HeightRequest="150">
                             <Label TextColor="Black" FontSize="Medium" Text="{Binding Title}" />
                             <Label Text="{Binding Description}"/>
-                            <Button Text="Zamknij zadanie" Command="{Binding CloseTaskCommand}"></Button>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

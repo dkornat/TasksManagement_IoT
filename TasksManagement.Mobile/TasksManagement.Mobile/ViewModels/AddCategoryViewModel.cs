@@ -29,6 +29,7 @@ namespace TasksManagement.Mobile.ViewModels
         private async void AddCategory()
         {
             await _categoryServices.AddCategory(Category);
+            //MessagingCenter.Send<CategoriesListPage>(this, "RefreshCategoryPage");
             await Navigation.PopAsync();
         }
     }

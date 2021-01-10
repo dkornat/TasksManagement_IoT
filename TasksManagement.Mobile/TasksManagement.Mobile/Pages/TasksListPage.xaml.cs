@@ -1,5 +1,6 @@
 ﻿using System;
 using TasksManagement.Mobile.Pages;
+using TasksManagement.Mobile.ServicesHandler;
 using TasksManagement.Mobile.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,10 +16,16 @@ namespace TasksManagement.Mobile
             BindingContext = new TasksListViewModel();
         }
 
+        protected override void OnAppearing()
+        {
+            (BindingContext as TasksListViewModel)?.InitializeGetTasksAsync();
+        }
+
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item == null)
                 return;
+
 
             await DisplayAlert("Item Tapped", "An item was tapped.", "OK");
 

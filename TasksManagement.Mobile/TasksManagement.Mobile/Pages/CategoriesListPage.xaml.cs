@@ -29,6 +29,11 @@ namespace TasksManagement.Mobile
             BindingContext = new CategoriesListViewModel();
         }
 
+        protected override void OnAppearing()
+        {
+            (BindingContext as CategoriesListViewModel)?.InitializeGetCategoriesAsync();
+        }
+
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item == null)

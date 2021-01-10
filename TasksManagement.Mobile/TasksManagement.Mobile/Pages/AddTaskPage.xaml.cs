@@ -20,5 +20,6 @@ namespace TasksManagement.Mobile.Pages
             addTaskViewModel.Task.End = DateTime.Today;
             BindingContext = addTaskViewModel;
         }
+
     }
 }

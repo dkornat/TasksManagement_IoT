@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using TasksManagement.Mobile.ServicesHandler;
 using System.Runtime.CompilerServices;
 using TasksManagement.Models;
+using Xamarin.Forms;
 
 namespace TasksManagement.Mobile.ViewModels
 {
@@ -12,6 +13,9 @@ namespace TasksManagement.Mobile.ViewModels
         public CategoriesListViewModel()
         {
             InitializeGetCategoriesAsync();
+            MessagingCenter.Subscribe<CategoriesListPage>(this, "RefreshCategoryPage", (sender) => {
+                InitializeGetCategoriesAsync();
+            });
         }
 
         CategoryServices _services = new CategoryServices();
@@ -29,7 +33,7 @@ namespace TasksManagement.Mobile.ViewModels
                 NotifyPropertyChanged();
             }
         }
-        private async System.Threading.Tasks.Task InitializeGetCategoriesAsync()
+        public async System.Threading.Tasks.Task InitializeGetCategoriesAsync()
         {
             try
             {

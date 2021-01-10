@@ -72,6 +72,7 @@ namespace TasksManagement.Mobile.ViewModels
             {
                 _selectedTask = value;
                 NotifyPropertyChanged();
+                CloseTask();
             }
         }
 
@@ -85,7 +86,7 @@ namespace TasksManagement.Mobile.ViewModels
                 NotifyPropertyChanged();
             }
         }
-        private async System.Threading.Tasks.Task InitializeGetTasksAsync()
+        public async System.Threading.Tasks.Task InitializeGetTasksAsync()
         {
             try
             {
@@ -122,7 +123,15 @@ namespace TasksManagement.Mobile.ViewModels
 
         private async void CloseTask()
         {
-            await _taskServices.CloseTask((Models.Task)SelectedTask);
+            if(SelectedTask != null)
+            {
+                var answer = await App.Current.MainPage.DisplayAlert("CloseTask", "Czy chcesz zamknąć wybrane zadanie?", "Tak", "Nie");
+                if (answer)
+                {
+                    await _taskServices.CloseTask((Models.Task)SelectedTask);
+                    await InitializeGetTasksAsync();
+                }
+            }
         }
 
         protected virtual void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
